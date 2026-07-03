@@ -85,6 +85,8 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 .btn-dark:hover { background: #243a65; }
 .btn-green { background: #16a34a; color: #fff; }
 .btn-green:hover { background: #15803d; }
+.btn-blue { background: #2563eb; color: #fff; }
+.btn-blue:hover { background: #1d4ed8; }
 .btn-copy { background: #f1f5f9; color: #475569; padding: 7px 14px; font-size: 12px; border-radius: 7px; }
 .btn-copy:hover { background: #e2e8f0; }
 .btn-copy.copied { background: #d1fae5; color: #065f46; }
@@ -389,6 +391,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 
     <hr class="divider">
     <button class="btn btn-orange" onclick="generateStorefrontPrompt()">產出旺舖介紹 Prompt →</button>
+    <div style="margin-top:12px">
+      <a class="btn btn-copy" style="text-decoration:none" href="https://drive.google.com/uc?export=download&id=1KtNt2bAr7bsNRyXFsuhL76RNt_qryuEA" target="_blank" rel="noopener">📥 下載旺舖 Excel 資料蒐集包</a>
+    </div>
     <div class="msg" id="step1Msg"></div>
 
     <div class="prompt-box" id="storefrontPromptBox">
@@ -973,6 +978,9 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     <hr class="divider" style="margin-top:24px">
     <button class="btn btn-green" onclick="generateExcel()" id="btnGenerate">⬇ 轉換並下載 Excel</button>
     <div class="msg" id="genMsg"></div>
+
+    <div class="msg info" style="display:block; margin-top:16px;">請下載「批量上傳商品 Excel 檔案」，並將您剛剛下載的拓品資料 Excel 檔案複製貼入。</div>
+    <a class="btn btn-blue" style="text-decoration:none" href="https://raw.githubusercontent.com/alibabaamyh-cmyk/alibaba_store/main/bulk-upload-template.xlsx" download="批量上傳商品Excel檔案.xlsx">⬇ 下載批量上傳商品 Excel 檔案</a>
 
     <div id="successBox" style="display:none; margin-top:24px;">
       <div class="success-box">
