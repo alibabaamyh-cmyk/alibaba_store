@@ -972,11 +972,24 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     </div>
 
     <div id="step5DescInput" style="display:none; margin-top:20px;">
+      <div class="step-sub" style="margin-left:0">把 AI 回覆的 4 個 code block，分別貼到下面對應的欄位（貼入後自動合併套用到所有商品的 Product description 欄位）</div>
       <div class="field">
-        <label>貼入 AI 產出的詳情頁文案（貼入後自動套用到所有商品）</label>
-        <textarea id="aiDescriptionInput" rows="6" placeholder="把 AI 回覆的內容直接貼在這裡..." oninput="onDescInput()"></textarea>
-        <span class="hint" id="descSavedHint"></span>
+        <label>產品描述</label>
+        <textarea id="descInputBody" rows="5" placeholder="把 AI 回覆的「產品描述」code block 貼在這裡..." oninput="onDescInput()"></textarea>
       </div>
+      <div class="field" style="margin-top:14px">
+        <label>Specifications 規格條列</label>
+        <textarea id="descInputSpecs" rows="5" placeholder="把 AI 回覆的「Specifications」code block 貼在這裡..." oninput="onDescInput()"></textarea>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label>About Us 公司介紹</label>
+        <textarea id="descInputAbout" rows="5" placeholder="把 AI 回覆的「About Us」code block 貼在這裡..." oninput="onDescInput()"></textarea>
+      </div>
+      <div class="field" style="margin-top:14px">
+        <label>FAQ</label>
+        <textarea id="descInputFaq" rows="5" placeholder="把 AI 回覆的「FAQ」code block 貼在這裡..." oninput="onDescInput()"></textarea>
+      </div>
+      <span class="hint" id="descSavedHint"></span>
     </div>
 
     <hr class="divider" style="margin-top:24px">
@@ -1531,14 +1544,14 @@ function generateDescPrompt() {
 "**第一部分 — 給商家的參考建議（純文字，不用放在 code block）：**\n" +
 "建議標題：<一行英文標題，嚴格控制在 128 字元以內，遵循阿里巴巴標題規範：核心產品詞（放最前）+ 關鍵規格/材質 + 應用場景/目標市場，可加一個 B2B 意圖詞如 Wholesale / OEM / Custom，禁止全大寫、重複關鍵詞、特殊符號、Best Seller 等誇大詞>\n" +
 "建議關鍵詞：<5–10 個英文關鍵字，逗號分隔，對應買家搜尋習慣>\n\n" +
-"**第二部分 — 商品詳情頁文案（整段放進一個 ``` code block，方便商家一鍵複製貼到阿里後台）：**\n" +
-"code block 內只包含以下內容，不要加任何標籤或說明文字：\n\n" +
+"**第二部分 — 商品詳情頁文案（以下 4 個子段落，請「各自獨立」放進不同的 ``` code block，方便商家分開複製貼到阿里後台的不同欄位；每個 code block 內只放該段內容，不要加標題或說明文字）：**\n\n" +
+"1) 產品描述 code block：\n" +
 "<2–3 段流暢的英文產品描述，針對買家痛點撰寫，2,000 字元以內>\n\n" +
-"Specifications:\n" +
+"2) Specifications code block：\n" +
 "<規格條列：材質、尺寸/重量、MOQ、交期、認證、可選規格等>\n\n" +
-"About Us:\n" +
+"3) About Us code block：\n" +
 "<2 段公司介紹，從買家視角撰寫>\n\n" +
-"FAQ:\n" +
+"4) FAQ code block：\n" +
 "Q: <買家常見問題>\n" +
 "A: <簡潔回答，最多 3 句>\n" +
 "（重複 6–8 組 Q&A）\n\n" +
@@ -1551,10 +1564,20 @@ function generateDescPrompt() {
 }
 
 function onDescInput() {
-  var val = document.getElementById("aiDescriptionInput").value.trim();
-  if (val) {
-    aiDescription = val;
-    document.getElementById("descSavedHint").textContent = "✓ 已儲存，將用於所有商品的 Product description 欄位";
+  var body  = v("descInputBody").trim();
+  var specs = v("descInputSpecs").trim();
+  var about = v("descInputAbout").trim();
+  var faq   = v("descInputFaq").trim();
+
+  var parts = [];
+  if (body)  parts.push(body);
+  if (specs) parts.push("Specifications:\n" + specs);
+  if (about) parts.push("About Us:\n" + about);
+  if (faq)   parts.push("FAQ:\n" + faq);
+
+  if (parts.length) {
+    aiDescription = parts.join("\n\n");
+    document.getElementById("descSavedHint").textContent = "✓ 已儲存，將合併套用到所有商品的 Product description 欄位";
     document.getElementById("descSavedHint").style.color = "#16a34a";
   } else {
     aiDescription = null;
