@@ -1023,30 +1023,54 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       <div class="step-icon">6</div>
       <div class="step-title">生圖 Prompt（選填）</div>
     </div>
-    <div class="step-sub">用來請 AI 幫你生成產品圖與公司實力圖。請回到 Step 5 貼上詳情頁文案時<strong>同一個</strong> ChatGPT / Gemini 對話視窗，先上傳您的 Logo 圖片，再複製以下 Prompt 貼上。</div>
+    <div class="step-sub">用來請 AI 幫你生成產品圖、規格圖、公司介紹圖與 FAQ 圖。請回到 Step 5 貼上詳情頁文案時<strong>同一個</strong> ChatGPT / Gemini 對話視窗，先上傳您的 Logo 圖片和產品／公司環境圖片，再複製以下 Prompt 貼上。</div>
 
     <hr class="divider">
-    <button class="btn btn-orange" onclick="generateProductImagePrompt()">產出產品賣點生圖 Prompt →</button>
+    <button class="btn btn-orange" onclick="generateSellingPointImagePrompt()">產出產品賣點生圖 Prompt →</button>
     <div class="msg" id="step6Msg"></div>
 
-    <div class="prompt-box" id="productImagePromptBox">
+    <div class="prompt-box" id="sellingPointImagePromptBox">
       <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo 圖片）</div>
-        <button class="btn btn-copy" id="btnCopyProductImage" onclick="copyPrompt('productImagePromptText','btnCopyProductImage')">一鍵複製</button>
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
+        <button class="btn btn-copy" id="btnCopySellingPointImage" onclick="copyPrompt('sellingPointImagePromptText','btnCopySellingPointImage')">一鍵複製</button>
       </div>
-      <div class="prompt-text" id="productImagePromptText"></div>
+      <div class="prompt-text" id="sellingPointImagePromptText"></div>
     </div>
 
     <div style="margin-top:20px">
-      <button class="btn btn-orange" onclick="generateCompanyImagePrompt()">產出公司實力生圖 Prompt →</button>
+      <button class="btn btn-orange" onclick="generateSpecsImagePrompt()">產出產品規格生圖 Prompt →</button>
     </div>
 
-    <div class="prompt-box" id="companyImagePromptBox">
+    <div class="prompt-box" id="specsImagePromptBox">
       <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo 圖片）</div>
-        <button class="btn btn-copy" id="btnCopyCompanyImage" onclick="copyPrompt('companyImagePromptText','btnCopyCompanyImage')">一鍵複製</button>
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
+        <button class="btn btn-copy" id="btnCopySpecsImage" onclick="copyPrompt('specsImagePromptText','btnCopySpecsImage')">一鍵複製</button>
       </div>
-      <div class="prompt-text" id="companyImagePromptText"></div>
+      <div class="prompt-text" id="specsImagePromptText"></div>
+    </div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-orange" onclick="generateAboutImagePrompt()">產出公司介紹生圖 Prompt →</button>
+    </div>
+
+    <div class="prompt-box" id="aboutImagePromptBox">
+      <div class="prompt-box-header">
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
+        <button class="btn btn-copy" id="btnCopyAboutImage" onclick="copyPrompt('aboutImagePromptText','btnCopyAboutImage')">一鍵複製</button>
+      </div>
+      <div class="prompt-text" id="aboutImagePromptText"></div>
+    </div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-orange" onclick="generateFaqImagePrompt()">產出 FAQ 生圖 Prompt →</button>
+    </div>
+
+    <div class="prompt-box" id="faqImagePromptBox">
+      <div class="prompt-box-header">
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
+        <button class="btn btn-copy" id="btnCopyFaqImage" onclick="copyPrompt('faqImagePromptText','btnCopyFaqImage')">一鍵複製</button>
+      </div>
+      <div class="prompt-text" id="faqImagePromptText"></div>
     </div>
   </div>
 
@@ -1588,24 +1612,48 @@ function onDescInput() {
 // ══════════════════════════════════════════════════════
 // STEP 6 — 生圖 Prompt
 // ══════════════════════════════════════════════════════
-function generateProductImagePrompt() {
-  if (!aiDescription) {
-    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的詳情頁文案", "err"); return;
+function generateSellingPointImagePrompt() {
+  var body = v("descInputBody").trim();
+  if (!body) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「產品描述」", "err"); return;
   }
   hideMsg("step6Msg");
-  document.getElementById("productImagePromptText").textContent =
-"請依照我給你的logo圖片做為主要色系風格和產品圖片，依據我剛剛貼給你的商品明細頁面中的商品賣點，產出一張900*900的圖";
-  document.getElementById("productImagePromptBox").style.display = "block";
+  document.getElementById("sellingPointImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的產品圖片，依據產品描述（" + body + "），製作出一張吸引海外買家詢盤或購買的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+  document.getElementById("sellingPointImagePromptBox").style.display = "block";
 }
 
-function generateCompanyImagePrompt() {
-  if (!aiDescription) {
-    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的詳情頁文案", "err"); return;
+function generateSpecsImagePrompt() {
+  var specs = v("descInputSpecs").trim();
+  if (!specs) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「Specifications」", "err"); return;
   }
   hideMsg("step6Msg");
-  document.getElementById("companyImagePromptText").textContent =
-"請依照我給你的logo圖片做為主要色系風格和公司圖片，依據我給你的商品明細頁面中的公司實力，產出一張900*900的圖";
-  document.getElementById("companyImagePromptBox").style.display = "block";
+  document.getElementById("specsImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的產品圖片，依據產品規格（" + specs + "），製作出一張吸引海外買家詢盤或購買的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+  document.getElementById("specsImagePromptBox").style.display = "block";
+}
+
+function generateAboutImagePrompt() {
+  var about = v("descInputAbout").trim();
+  if (!about) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「About Us」", "err"); return;
+  }
+  hideMsg("step6Msg");
+  document.getElementById("aboutImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的公司環境圖片，依據公司介紹內容（" + about + "），製作出一張吸引海外買家，呈現公司專業的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+  document.getElementById("aboutImagePromptBox").style.display = "block";
+}
+
+function generateFaqImagePrompt() {
+  var faq = v("descInputFaq").trim();
+  if (!faq) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「FAQ」", "err"); return;
+  }
+  hideMsg("step6Msg");
+  document.getElementById("faqImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的公司環境圖片，依據faq內容（" + faq + "），製作出一張吸引海外買家，呈現公司專業產品賣點，簡潔的faq重點的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+  document.getElementById("faqImagePromptBox").style.display = "block";
 }
 
 // ══════════════════════════════════════════════════════
