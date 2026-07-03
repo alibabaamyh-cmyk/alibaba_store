@@ -217,6 +217,10 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="prog-item" id="prog5" onclick="goStep(5)">
     <div class="prog-num">5</div><div class="prog-label">詳情頁 & 下載</div>
   </div>
+  <div class="prog-arrow">›</div>
+  <div class="prog-item" id="prog6" onclick="goStep(6)">
+    <div class="prog-num">6</div><div class="prog-label">生圖 Prompt</div>
+  </div>
 </div>
 
 <div class="container">
@@ -995,7 +999,41 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
           </ol>
         </div>
         <button class="btn btn-orange" onclick="goStep(2)" style="margin:0 auto">重新拓品 →</button>
+        <button class="btn btn-dark" onclick="goStep(6)" style="margin:0 auto">前往 Step 6：生圖 Prompt →</button>
       </div>
+    </div>
+  </div>
+
+  <!-- ════ STEP 6 ════ -->
+  <div class="step-card" id="step6">
+    <div class="step-head">
+      <div class="step-icon">6</div>
+      <div class="step-title">生圖 Prompt（選填）</div>
+    </div>
+    <div class="step-sub">用來請 AI 幫你生成產品圖與公司實力圖。請回到 Step 5 貼上詳情頁文案時<strong>同一個</strong> ChatGPT / Gemini 對話視窗，先上傳您的 Logo 圖片，再複製以下 Prompt 貼上。</div>
+
+    <hr class="divider">
+    <button class="btn btn-orange" onclick="generateProductImagePrompt()">產出產品賣點生圖 Prompt →</button>
+    <div class="msg" id="step6Msg"></div>
+
+    <div class="prompt-box" id="productImagePromptBox">
+      <div class="prompt-box-header">
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo 圖片）</div>
+        <button class="btn btn-copy" id="btnCopyProductImage" onclick="copyPrompt('productImagePromptText','btnCopyProductImage')">一鍵複製</button>
+      </div>
+      <div class="prompt-text" id="productImagePromptText"></div>
+    </div>
+
+    <div style="margin-top:20px">
+      <button class="btn btn-orange" onclick="generateCompanyImagePrompt()">產出公司實力生圖 Prompt →</button>
+    </div>
+
+    <div class="prompt-box" id="companyImagePromptBox">
+      <div class="prompt-box-header">
+        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo 圖片）</div>
+        <button class="btn btn-copy" id="btnCopyCompanyImage" onclick="copyPrompt('companyImagePromptText','btnCopyCompanyImage')">一鍵複製</button>
+      </div>
+      <div class="prompt-text" id="companyImagePromptText"></div>
     </div>
   </div>
 
@@ -1251,7 +1289,7 @@ function copyPrompt(textId, btnId) {
 }
 
 function goStep(n) {
-  for (var i = 1; i <= 5; i++) {
+  for (var i = 1; i <= 6; i++) {
     var card = document.getElementById("step" + i);
     var prog = document.getElementById("prog" + i);
     if (i === n) { card.classList.add("visible"); prog.classList.add("active"); prog.classList.remove("done"); }
@@ -1522,6 +1560,29 @@ function onDescInput() {
     aiDescription = null;
     document.getElementById("descSavedHint").textContent = "";
   }
+}
+
+// ══════════════════════════════════════════════════════
+// STEP 6 — 生圖 Prompt
+// ══════════════════════════════════════════════════════
+function generateProductImagePrompt() {
+  if (!aiDescription) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的詳情頁文案", "err"); return;
+  }
+  hideMsg("step6Msg");
+  document.getElementById("productImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和產品圖片，依據我剛剛貼給你的商品明細頁面中的商品賣點，產出一張900*900的圖";
+  document.getElementById("productImagePromptBox").style.display = "block";
+}
+
+function generateCompanyImagePrompt() {
+  if (!aiDescription) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的詳情頁文案", "err"); return;
+  }
+  hideMsg("step6Msg");
+  document.getElementById("companyImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和公司圖片，依據我給你的商品明細頁面中的公司實力，產出一張900*900的圖";
+  document.getElementById("companyImagePromptBox").style.display = "block";
 }
 
 // ══════════════════════════════════════════════════════
