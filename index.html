@@ -376,6 +376,23 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
 
     <hr class="divider">
 
+    <!-- ── 競業分析 ── -->
+    <div class="sec-label">競業分析（選填）</div>
+
+    <div class="field" style="margin-top:14px">
+      <label>競業標竿商家資訊</label>
+      <input id="competitorInfo" placeholder="例如：Alibaba 旺舖網址、官網、或具體商家名稱" />
+      <span class="hint">參考競業如何包裝，有助於產出更有競爭力的旺舖文案</span>
+    </div>
+
+    <div class="field" style="margin-top:12px">
+      <label>競業做得好的地方</label>
+      <textarea id="competitorStrengths" rows="3" placeholder="例：他們的 About Us 強調了團隊背景和認證、商品詳情頁用對比圖表展示性能優勢、FAQ 把常見異議都回答了"></textarea>
+      <span class="hint">填寫他們的優勢，幫助 AI 提升你的文案說服力</span>
+    </div>
+
+    <hr class="divider">
+
     <!-- ── 風格設計 ── -->
     <div class="sec-label">風格設計</div>
 
@@ -1356,6 +1373,8 @@ function generateStorefrontPrompt() {
   var team        = v("team");
   var orderFlex   = v("orderFlex");
   var targetBuyers = v("targetBuyers");
+  var competitorInfo = v("competitorInfo");
+  var competitorStrengths = v("competitorStrengths");
 
   if (!coName) {
     showMsg("step1Msg", "✗ 請填寫「公司名稱（英文）」", "err"); return;
@@ -1386,6 +1405,8 @@ function generateStorefrontPrompt() {
 "  目標買家：" + (targetBuyers || na) + "\n" +
 "• 定價策略：" + (coPricing || na) + "\n" +
 (coStyle      ? "• 旺舖風格偏好：" + coStyle + "\n" : "") +
+(competitorInfo ? "• 競業標竿商家：" + competitorInfo + "\n" : "") +
+(competitorStrengths ? "• 競業優勢參考：" + competitorStrengths + "\n" : "") +
 "\n【第二步：旺舖 OBS 文案生成】\n" +
 "根據以上資訊與第一步分析，依序生成以下 8 個旺舖區塊。\n\n" +
 "每個區塊的格式如下：\n" +
