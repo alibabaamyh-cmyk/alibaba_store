@@ -880,24 +880,31 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
     </div>
 
     <div id="step5DescInput" style="display:none; margin-top:20px;">
-      <div class="step-sub" style="margin-left:0">把 AI 回覆的 4 個 code block，分別貼到下面對應的欄位（貼入後自動合併套用到所有商品的 Product description 欄位）</div>
+      <div class="step-sub" style="margin-left:0">把 AI 回覆的 JSON 貼入下方，工具自動拆成 4 個欄位（自動合併套用到所有商品的 Product description 欄位）</div>
       <div class="field">
-        <label>產品描述</label>
-        <textarea id="descInputBody" rows="5" placeholder="把 AI 回覆的「產品描述」code block 貼在這裡..." oninput="onDescInput()"></textarea>
+        <label>貼入 AI 輸出的 JSON <span class="required-star">✱</span></label>
+        <textarea id="descJsonInput" rows="10" placeholder='貼入 AI 的 JSON code block（直接貼，不需要去掉 ```json 標記）...' oninput="parseDescJson()"></textarea>
+        <span class="hint">工具會自動解析 4 個部分</span>
       </div>
-      <div class="field" style="margin-top:14px">
-        <label>Specifications 規格條列</label>
-        <textarea id="descInputSpecs" rows="5" placeholder="把 AI 回覆的「Specifications」code block 貼在這裡..." oninput="onDescInput()"></textarea>
+      <div id="descParsedFields" style="display:none; margin-top:16px;">
+        <div class="field">
+          <label>✓ 產品描述</label>
+          <div style="padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:12px; color:#475569; max-height:120px; overflow-y:auto; word-break:break-word;"></div>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>✓ Specifications 規格條列</label>
+          <div style="padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:12px; color:#475569; max-height:120px; overflow-y:auto; word-break:break-word;"></div>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>✓ About Us 公司介紹</label>
+          <div style="padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:12px; color:#475569; max-height:120px; overflow-y:auto; word-break:break-word;"></div>
+        </div>
+        <div class="field" style="margin-top:12px">
+          <label>✓ FAQ</label>
+          <div style="padding:10px 12px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:8px; font-size:12px; color:#475569; max-height:120px; overflow-y:auto; word-break:break-word;"></div>
+        </div>
       </div>
-      <div class="field" style="margin-top:14px">
-        <label>About Us 公司介紹</label>
-        <textarea id="descInputAbout" rows="5" placeholder="把 AI 回覆的「About Us」code block 貼在這裡..." oninput="onDescInput()"></textarea>
-      </div>
-      <div class="field" style="margin-top:14px">
-        <label>FAQ</label>
-        <textarea id="descInputFaq" rows="5" placeholder="把 AI 回覆的「FAQ」code block 貼在這裡..." oninput="onDescInput()"></textarea>
-      </div>
-      <span class="hint" id="descSavedHint"></span>
+      <div id="descParseMsg" style="display:none; margin-top:12px; padding:10px 14px; border-radius:8px; font-size:13px;"></div>
     </div>
 
     <hr class="divider" style="margin-top:24px">
@@ -929,54 +936,54 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       <div class="step-icon">6</div>
       <div class="step-title">生圖 Prompt（選填）</div>
     </div>
-    <div class="step-sub">用來請 AI 幫你生成產品圖、規格圖、公司介紹圖與 FAQ 圖。請回到 Step 5 貼上詳情頁文案時<strong>同一個</strong> ChatGPT / Gemini 對話視窗，先上傳您的 Logo 圖片和產品／公司環境圖片，再複製以下 Prompt 貼上。</div>
+    <div class="step-sub">用來請 AI 幫你生成產品圖、規格圖、公司介紹圖與 FAQ 圖。請回到 Step 5 貼上詳情頁文案時<strong>同一個</strong> ChatGPT / Gemini 對話視窗，先上傳您的 Logo 圖片和產品／公司環境圖片，再逐一複製以下 4 個 Prompt 貼上。</div>
 
     <hr class="divider">
-    <button class="btn btn-orange" onclick="generateSellingPointImagePrompt()">產出產品賣點生圖 Prompt →</button>
+    <button class="btn btn-orange" onclick="generateAllImagePrompts()">生成所有生圖 Prompt →</button>
     <div class="msg" id="step6Msg"></div>
 
-    <div class="prompt-box" id="sellingPointImagePromptBox">
-      <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
-        <button class="btn btn-copy" id="btnCopySellingPointImage" onclick="copyPrompt('sellingPointImagePromptText','btnCopySellingPointImage')">一鍵複製</button>
-      </div>
-      <div class="prompt-text" id="sellingPointImagePromptText"></div>
-    </div>
-
     <div style="margin-top:20px">
-      <button class="btn btn-orange" onclick="generateSpecsImagePrompt()">產出產品規格生圖 Prompt →</button>
-    </div>
-
-    <div class="prompt-box" id="specsImagePromptBox">
-      <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
-        <button class="btn btn-copy" id="btnCopySpecsImage" onclick="copyPrompt('specsImagePromptText','btnCopySpecsImage')">一鍵複製</button>
+      <div class="sec-label">1️⃣ 產品賣點圖 Prompt</div>
+      <div class="prompt-box" id="sellingPointImagePromptBox" style="display:none">
+        <div class="prompt-box-header">
+          <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
+          <button class="btn btn-copy" id="btnCopySellingPointImage" onclick="copyPrompt('sellingPointImagePromptText','btnCopySellingPointImage')">一鍵複製</button>
+        </div>
+        <div class="prompt-text" id="sellingPointImagePromptText"></div>
       </div>
-      <div class="prompt-text" id="specsImagePromptText"></div>
     </div>
 
-    <div style="margin-top:20px">
-      <button class="btn btn-orange" onclick="generateAboutImagePrompt()">產出公司介紹生圖 Prompt →</button>
-    </div>
-
-    <div class="prompt-box" id="aboutImagePromptBox">
-      <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
-        <button class="btn btn-copy" id="btnCopyAboutImage" onclick="copyPrompt('aboutImagePromptText','btnCopyAboutImage')">一鍵複製</button>
+    <div style="margin-top:24px">
+      <div class="sec-label">2️⃣ 產品規格圖 Prompt</div>
+      <div class="prompt-box" id="specsImagePromptBox" style="display:none">
+        <div class="prompt-box-header">
+          <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 產品圖片）</div>
+          <button class="btn btn-copy" id="btnCopySpecsImage" onclick="copyPrompt('specsImagePromptText','btnCopySpecsImage')">一鍵複製</button>
+        </div>
+        <div class="prompt-text" id="specsImagePromptText"></div>
       </div>
-      <div class="prompt-text" id="aboutImagePromptText"></div>
     </div>
 
-    <div style="margin-top:20px">
-      <button class="btn btn-orange" onclick="generateFaqImagePrompt()">產出 FAQ 生圖 Prompt →</button>
-    </div>
-
-    <div class="prompt-box" id="faqImagePromptBox">
-      <div class="prompt-box-header">
-        <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
-        <button class="btn btn-copy" id="btnCopyFaqImage" onclick="copyPrompt('faqImagePromptText','btnCopyFaqImage')">一鍵複製</button>
+    <div style="margin-top:24px">
+      <div class="sec-label">3️⃣ 公司介紹圖 Prompt</div>
+      <div class="prompt-box" id="aboutImagePromptBox" style="display:none">
+        <div class="prompt-box-header">
+          <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
+          <button class="btn btn-copy" id="btnCopyAboutImage" onclick="copyPrompt('aboutImagePromptText','btnCopyAboutImage')">一鍵複製</button>
+        </div>
+        <div class="prompt-text" id="aboutImagePromptText"></div>
       </div>
-      <div class="prompt-text" id="faqImagePromptText"></div>
+    </div>
+
+    <div style="margin-top:24px">
+      <div class="sec-label">4️⃣ FAQ 圖 Prompt</div>
+      <div class="prompt-box" id="faqImagePromptBox" style="display:none">
+        <div class="prompt-box-header">
+          <div class="prompt-box-title">複製以下 Prompt，貼到同一個 ChatGPT 或 Gemini 對話視窗（並附上 Logo + 公司環境圖片）</div>
+          <button class="btn btn-copy" id="btnCopyFaqImage" onclick="copyPrompt('faqImagePromptText','btnCopyFaqImage')">一鍵複製</button>
+        </div>
+        <div class="prompt-text" id="faqImagePromptText"></div>
+      </div>
     </div>
   </div>
 
@@ -1456,27 +1463,83 @@ function generateDescPrompt() {
 "4. For any field not provided, write a reasonable placeholder marked as [Please fill in: ___]\n" +
 "5. Do NOT mention Gold Supplier / Verified Supplier / platform tenure\n" +
 "6. No emoji or emoticons. No section numbers (①②③). Output entirely in English\n" +
-"\n## 輸出格式（請依序輸出以下三個部分）\n\n" +
-"**第一部分 — 給商家的參考建議（純文字，不用放在 code block）：**\n" +
-"建議標題：<一行英文標題，嚴格控制在 128 字元以內，遵循阿里巴巴標題規範：核心產品詞（放最前）+ 關鍵規格/材質 + 應用場景/目標市場，可加一個 B2B 意圖詞如 Wholesale / OEM / Custom，禁止全大寫、重複關鍵詞、特殊符號、Best Seller 等誇大詞>\n" +
-"建議關鍵詞：<5–10 個英文關鍵字，逗號分隔，對應買家搜尋習慣>\n\n" +
-"**第二部分 — 商品詳情頁文案（以下 4 個子段落，請「各自獨立」放進不同的 ``` code block，方便商家分開複製貼到阿里後台的不同欄位；每個 code block 內只放該段內容，不要加標題或說明文字）：**\n\n" +
-"1) 產品描述 用 code block 輸出，方便一鍵複製：\n" +
-"<2–3 段流暢的英文產品描述，針對買家痛點撰寫，2,000 字元以內>\n\n" +
-"2) Specifications 用 code block 輸出，方便一鍵複製：\n" +
-"<規格條列：材質、尺寸/重量、MOQ、交期、認證、可選規格等>\n\n" +
-"3) About Us 用 code block 輸出，方便一鍵複製：\n" +
-"<2 段公司介紹，從買家視角撰寫>\n\n" +
-"4) FAQ 用 code block 輸出，方便一鍵複製：\n" +
-"Q: <買家常見問題>\n" +
-"A: <簡潔回答，最多 3 句>\n" +
-"（重複 6–8 組 Q&A）\n\n" +
-"**第三部分 — 資訊缺口提示（純文字，給商家參考，不用放在 code block）：**\n" +
-"列出目前缺少哪些資訊，補充後可以讓這個商品列表更有說服力。\n";
+"\n## 輸出格式（請用一個 JSON code block，方便一鍵複製）\n\n" +
+"```json\n" +
+"{\n" +
+'  \"suggestedTitle\": \"一行英文標題，嚴格控制在 128 字元以內，遵循阿里巴巴標題規範：核心產品詞（放最前）+ 關鍵規格/材質 + 應用場景/目標市場，可加一個 B2B 意圖詞如 Wholesale / OEM / Custom\",\n' +
+'  \"suggestedKeywords\": \"5–10 個英文關鍵字，逗號分隔\",\n' +
+'  \"productDescription\": \"2–3 段流暢的英文產品描述，針對買家痛點撰寫，2,000 字元以內\",\n' +
+'  \"specifications\": \"規格條列：材質、尺寸/重量、MOQ、交期、認證、可選規格等\",\n' +
+'  \"aboutUs\": \"2 段公司介紹，從買家視角撰寫\",\n' +
+'  \"faq\": \"Q: <買家常見問題>\\nA: <簡潔回答，最多 3 句>\\n（重複 6–8 組 Q&A）\",\n' +
+'  \"informationGaps\": \"列出目前缺少哪些資訊，補充後可以讓這個商品列表更有說服力。\"\n' +
+"}\n" +
+"```\n\n" +
+"**規則：**\n" +
+"- 只輸出以上 JSON code block，不需要其他說明文字\n" +
+"- 所有文字使用英文\n" +
+"- 禁止全大寫、重複關鍵詞、特殊符號、Best Seller 等誇大詞\n";
 
   document.getElementById("descPromptText").textContent = prompt;
   document.getElementById("descPromptBox").style.display = "block";
   document.getElementById("step5DescInput").style.display = "block";
+}
+
+function parseDescJson() {
+  var raw = v("descJsonInput").trim();
+  var fieldsEl = document.getElementById("descParsedFields");
+  var msgEl = document.getElementById("descParseMsg");
+
+  fieldsEl.style.display = "none";
+  msgEl.style.display = "none";
+
+  if (!raw) return;
+
+  // 提取 JSON（去掉 ```json ``` 標記）
+  var jsonStr = raw.replace(/```json\n?|\n?```/g, "").trim();
+  var data;
+
+  try {
+    data = JSON.parse(jsonStr);
+  } catch(e) {
+    msgEl.textContent = "✗ JSON 格式不正確，請檢查";
+    msgEl.style.background = "#fee2e2";
+    msgEl.style.color = "#991b1b";
+    msgEl.style.display = "block";
+    return;
+  }
+
+  // 檢查必要字段
+  if (!data.productDescription || !data.specifications || !data.aboutUs || !data.faq) {
+    msgEl.textContent = "✗ 缺少必要字段（需要：productDescription, specifications, aboutUs, faq）";
+    msgEl.style.background = "#fee2e2";
+    msgEl.style.color = "#991b1b";
+    msgEl.style.display = "block";
+    return;
+  }
+
+  // 儲存到全局變數供下載使用
+  window.parsedDesc = {
+    body: data.productDescription,
+    specs: data.specifications,
+    about: data.aboutUs,
+    faq: data.faq
+  };
+
+  // 顯示解析結果
+  var displays = fieldsEl.querySelectorAll(".field > div:nth-child(2)");
+  if (displays.length >= 4) {
+    displays[0].textContent = data.productDescription.substring(0, 100) + (data.productDescription.length > 100 ? "..." : "");
+    displays[1].textContent = data.specifications.substring(0, 100) + (data.specifications.length > 100 ? "..." : "");
+    displays[2].textContent = data.aboutUs.substring(0, 100) + (data.aboutUs.length > 100 ? "..." : "");
+    displays[3].textContent = data.faq.substring(0, 100) + (data.faq.length > 100 ? "..." : "");
+  }
+
+  fieldsEl.style.display = "block";
+  msgEl.textContent = "✓ 已解析全部 4 個部分";
+  msgEl.style.background = "#d1fae5";
+  msgEl.style.color = "#065f46";
+  msgEl.style.display = "block";
 }
 
 function onDescInput() {
@@ -1504,8 +1567,39 @@ function onDescInput() {
 // ══════════════════════════════════════════════════════
 // STEP 6 — 生圖 Prompt
 // ══════════════════════════════════════════════════════
+function generateAllImagePrompts() {
+  if (!window.parsedDesc) {
+    showMsg("step6Msg", "✗ 請先回到 Step 5，貼入並解析 AI 的 JSON", "err"); return;
+  }
+  hideMsg("step6Msg");
+
+  var body = window.parsedDesc.body;
+  var specs = window.parsedDesc.specs;
+  var about = window.parsedDesc.about;
+  var faq = window.parsedDesc.faq;
+
+  // 生成 4 個 Prompt
+  document.getElementById("sellingPointImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的產品圖片，依據產品描述（" + body + "），製作出一張吸引海外買家詢盤或購買的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+
+  document.getElementById("specsImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的產品圖片，依據產品規格（" + specs + "），製作出一張吸引海外買家詢盤或購買的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+
+  document.getElementById("aboutImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的公司環境圖片，依據公司介紹內容（" + about + "），製作出一張吸引海外買家，呈現公司專業的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+
+  document.getElementById("faqImagePromptText").textContent =
+"請依照我給你的logo圖片做為主要色系風格和我提供給您的公司環境圖片，依據常見問答（" + faq + "），製作出一張呈現產品質感和公司可信度的圖片，大小為900*900px，圖片文字以英文呈現需簡潔有力。";
+
+  // 顯示所有 4 個 Prompt Box
+  document.getElementById("sellingPointImagePromptBox").style.display = "block";
+  document.getElementById("specsImagePromptBox").style.display = "block";
+  document.getElementById("aboutImagePromptBox").style.display = "block";
+  document.getElementById("faqImagePromptBox").style.display = "block";
+}
+
 function generateSellingPointImagePrompt() {
-  var body = v("descInputBody").trim();
+  var body = window.parsedDesc?.body || v("descInputBody").trim();
   if (!body) {
     showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「產品描述」", "err"); return;
   }
@@ -1516,7 +1610,7 @@ function generateSellingPointImagePrompt() {
 }
 
 function generateSpecsImagePrompt() {
-  var specs = v("descInputSpecs").trim();
+  var specs = window.parsedDesc?.specs || v("descInputSpecs").trim();
   if (!specs) {
     showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「Specifications」", "err"); return;
   }
@@ -1527,7 +1621,7 @@ function generateSpecsImagePrompt() {
 }
 
 function generateAboutImagePrompt() {
-  var about = v("descInputAbout").trim();
+  var about = window.parsedDesc?.about || v("descInputAbout").trim();
   if (!about) {
     showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「About Us」", "err"); return;
   }
@@ -1538,7 +1632,7 @@ function generateAboutImagePrompt() {
 }
 
 function generateFaqImagePrompt() {
-  var faq = v("descInputFaq").trim();
+  var faq = window.parsedDesc?.faq || v("descInputFaq").trim();
   if (!faq) {
     showMsg("step6Msg", "✗ 請先回到 Step 5，貼入 AI 產出的「FAQ」", "err"); return;
   }
@@ -1817,8 +1911,8 @@ function generateExcel() {
     showMsg("genMsg", "✗ 請先貼入有效的 JSON", "err"); return;
   }
 
-  // 讀取固定資料（詳情頁優先用 Step 2 AI 產出，否則用 Step 1 基本描述）
-  var description  = aiDescription || v("productDesc");
+  // 讀取固定資料（詳情頁優先用 Step 5 AI 產出，否則用 Step 2 基本描述）
+  var description  = (window.parsedDesc ? (window.parsedDesc.body + "\n\nSpecifications:\n" + window.parsedDesc.specs + "\n\nAbout Us:\n" + window.parsedDesc.about + "\n\nFAQ:\n" + window.parsedDesc.faq) : null) || aiDescription || v("productDesc");
   var origin       = v("origin");
   var brand        = v("brand");
   var category     = null; // 留空，由阿里 AI 自動判斷
