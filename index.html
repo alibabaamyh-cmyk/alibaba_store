@@ -747,114 +747,6 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
       </div>
     </div>
 
-    <div class="sec-label" style="margin-top:22px">物流資訊</div>
-    <div class="logistics-tip">
-      <div class="logistics-tip-icon">💡</div>
-      <div>
-        <strong>選填說明：</strong>以下欄位（✱ 除外）阿里不強制要求，但<strong>填越完整，買家越容易詢盤下訂</strong>。<br>
-        建議至少填寫：毛重、運費模板、預計交期、商品尺寸、物流屬性。
-      </div>
-    </div>
-    <div class="grid-3" style="margin-top:14px;">
-      <div class="field">
-        <label>毛重（Gross weight）KG <span class="required-star">✱</span></label>
-        <input id="weight" type="number" step="0.01" placeholder="e.g. 0.50" />
-        <span class="hint">含包裝的總重量，純數字</span>
-      </div>
-      <div class="field">
-        <label>運費模板（Shipping template）<span class="required-star">✱</span></label>
-        <input id="shipTemplate" placeholder="e.g. Standard Shipping" />
-        <span class="hint">阿里後台設定的模板名稱</span>
-      </div>
-      <div class="field">
-        <label>出貨數量 1（Shipping quantity 1）<span class="required-star">✱</span></label>
-        <input id="shipQty1" type="number" placeholder="e.g. 1" />
-        <span class="hint">此交期對應的最小出貨量</span>
-      </div>
-      <div class="field">
-        <label>預計交期 1（Lead time 1）天 <span class="required-star">✱</span></label>
-        <input id="shipLead1" type="number" placeholder="e.g. 7" />
-        <span class="hint">幾天內出貨，純數字</span>
-      </div>
-      <div class="field">
-        <label>商品長度 cm <span class="required-star">✱</span></label>
-        <input id="itemL" type="number" step="0.1" placeholder="e.g. 30" />
-      </div>
-      <div class="field">
-        <label>商品寬度 cm <span class="required-star">✱</span></label>
-        <input id="itemW" type="number" step="0.1" placeholder="e.g. 20" />
-      </div>
-      <div class="field">
-        <label>商品高度 cm <span class="required-star">✱</span></label>
-        <input id="itemH" type="number" step="0.1" placeholder="e.g. 5" />
-      </div>
-      <div class="field" style="grid-column: 1 / -1;">
-        <label>物流屬性（Logistics attributes）<span class="required-star">✱</span></label>
-        <select id="logisticsAttr">
-          <option value="Ordinary goods">Ordinary goods｜普通貨物（最常用）</option>
-          <optgroup label="─── 電池類 ───">
-            <option value="Built-in battery (non-lithium battery):Built-in battery (non-lithium battery) ≤100WH">內置電池（非鋰）≤100WH</option>
-            <option value="Built-in battery (non-lithium battery):Built-in battery (non-lithium battery) >100WH">內置電池（非鋰）>100WH</option>
-            <option value="Built-in battery (lithium battery):Built-in battery (lithium battery) ≤100WH">內置電池（鋰電池）≤100WH</option>
-            <option value="Built-in battery (lithium battery):Built-in battery (lithium battery) >100WH">內置電池（鋰電池）>100WH</option>
-            <option value="Matching battery (non-lithium battery):Matching battery (non-lithium battery) ≤100WH">隨附電池（非鋰）≤100WH</option>
-            <option value="Matching battery (non-lithium battery):Matching battery (non-lithium battery) > 100WH">隨附電池（非鋰）>100WH</option>
-            <option value="Matching battery (lithium battery):Matching battery (lithium battery) ≤100WH">隨附電池（鋰電池）≤100WH</option>
-            <option value="Matching battery (lithium battery):Matching battery (lithium battery) > 100WH">隨附電池（鋰電池）>100WH</option>
-            <option value="Pure battery">Pure battery｜純電池</option>
-            <option value="Power bank">Power bank｜行動電源</option>
-            <option value="Pure battery (limited):Pure battery (limited)≤100WH">純電池（限制型）≤100WH</option>
-            <option value="Power bank (limited):Power bank (limited)≤100WH">行動電源（限制型）≤100WH</option>
-          </optgroup>
-          <optgroup label="─── 磁性物品 ───">
-            <option value="Magnetized: Weak magnetism">Magnetized: Weak magnetism｜弱磁</option>
-            <option value="Magnetized: Strong magnetism">Magnetized: Strong magnetism｜強磁</option>
-          </optgroup>
-          <optgroup label="─── 化妝品 ───">
-            <option value="Cosmetics-powder cake">Cosmetics-powder cake｜粉餅</option>
-            <option value="Cosmetics-powder">Cosmetics-powder｜粉末類</option>
-            <option value="Oily cosmetics-alcohol-free:Oily cosmetics- no alcohol ≤100ml per">油性化妝品（無酒精）≤100ml/件</option>
-            <option value="Oily cosmetics-alcohol-free:Oily cosmetics- no alcohol > 100ml per">油性化妝品（無酒精）>100ml/件</option>
-            <option value="Cream cosmetics - non alcoholic:Cream cosmetics - no alcohol ≤100ml per">膏狀化妝品（無酒精）≤100ml/件</option>
-            <option value="Cream cosmetics - non alcoholic:Cream cosmetics - no alcohol > 100ml per">膏狀化妝品（無酒精）>100ml/件</option>
-            <option value="Watery cosmetics-alcohol-free:Watery cosmetics-no alcohol ≤100ml per">水性化妝品（無酒精）≤100ml/件</option>
-            <option value="Watery cosmetics-alcohol-free:Watery cosmetics-no alcohol > 100ml per">水性化妝品（無酒精）>100ml/件</option>
-            <option value="Perfume:Perfume single item≤100ml">香水｜單件 ≤100ml</option>
-            <option value="Perfume:Perfume single item>100ml">香水｜單件 >100ml</option>
-          </optgroup>
-          <optgroup label="─── 食品飲料 ───">
-            <option value="food and beverage:Non-inflatable packaged snacks">食品：非充氣包裝零食</option>
-            <option value="food and beverage:Inflatable packaged snacks">食品：充氣包裝零食</option>
-            <option value="food and beverage:Fresh food">食品：生鮮食品</option>
-            <option value="food and beverage:Drinks">食品：飲料</option>
-          </optgroup>
-          <optgroup label="─── 特殊管制品 ───">
-            <option value="Selenium drum/ink cartridge">Selenium drum/ink cartridge｜硒鼓/墨盒</option>
-            <option value="Plant extracts">Plant extracts｜植物萃取物</option>
-            <option value="Sex Products">Sex Products｜成人用品</option>
-            <option value="Medical supplies">Medical supplies｜醫療用品</option>
-            <option value="Animal extract">Animal extract｜動物提取物</option>
-            <option value="Dinner knife:Uncut blade">餐刀｜未開刃</option>
-            <option value="Dinner knife:Edge">餐刀｜開刃</option>
-            <option value="Other knives:Other knives≤15CM">其他刀具｜≤15CM</option>
-            <option value="UAV">UAV｜無人機</option>
-            <option value="Drones (with limitations):Drones (restricted) for civilian use">無人機（限制型）民用</option>
-            <option value="toy gun:Toy Gun Model Gun - Non 1:1 Simulation">玩具槍｜模型槍（非1:1仿真）</option>
-            <option value="toy gun:Toy gun model gun-1:1 simulation">玩具槍｜模型槍（1:1仿真）</option>
-            <option value="toy gun:Toy Gun Other Toy Guns">玩具槍｜其他玩具槍</option>
-            <option value="lighter:Lighter has no gas or oil">打火機｜無燃料</option>
-            <option value="Solid alcohol containing alcohol">固體酒精</option>
-            <option value="Alcoholic liquid containing alcohol">含酒精液體</option>
-          </optgroup>
-        </select>
-        <span class="hint">選擇你商品最符合的物流分類，影響可使用的運送方式；大多數商品選「Ordinary goods」</span>
-      </div>
-      <div class="field">
-        <label>HS Code（關稅編碼）</label>
-        <input id="hsCode" placeholder="e.g. 6109100010" />
-        <span class="hint">填寫可讓買家更快完成進口清關，選填但建議填</span>
-      </div>
-    </div>
 
     <hr class="divider">
     <button class="btn btn-orange" onclick="generateAttrPrompt()">產出拓品屬性 Prompt →</button>
@@ -877,26 +769,27 @@ body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; b
   <div class="step-card" id="step3">
     <div class="step-head">
       <div class="step-icon">3</div>
-      <div class="step-title">填入 AI 建議的拓品屬性</div>
+      <div class="step-title">貼入 AI 的拓品屬性 JSON</div>
     </div>
-    <div class="step-sub">把 AI 回傳的「屬性名稱」貼入下方，工具自動產生輸入框。再把每個屬性的建議值分別貼入，然後按「產出拓品 Prompt」。</div>
+    <div class="step-sub">把 AI 回覆的 JSON code block 貼入下方，工具自動解析屬性和屬性值。</div>
 
     <div class="field">
-      <label>貼入屬性名稱（英文，逗號分隔，最多 5 個）<span class="required-star">✱</span></label>
-      <input id="attrNames" placeholder="例：size,color,material,level,custom" oninput="parseAttrNames()" />
-      <span class="hint">AI 輸出的第一行，直接複製貼上</span>
+      <label>貼入 AI 輸出的 JSON <span class="required-star">✱</span></label>
+      <textarea id="attrJsonInput" rows="8" placeholder='貼入 AI 的 JSON code block（直接貼，不需要去掉 ```json 標記）...' oninput="parseAttrJson()"></textarea>
+      <span class="hint">工具會自動解析屬性名稱和值</span>
     </div>
 
-    <div class="attr-grid" id="attrValueGrid"></div>
+    <div class="attr-grid" id="attrValueGrid" style="display:none; margin-top:16px"></div>
+    <div id="attrParsedMsg" style="display:none; margin-top:12px; padding:10px 14px; border-radius:8px; background:#d1fae5; color:#065f46; font-size:13px;"></div>
 
-    <hr class="divider" style="margin-top:20px">
-    <div class="field" style="max-width:200px">
+    <hr class="divider" style="margin-top:20px; display:none" id="step3Divider">
+    <div class="field" style="max-width:200px; display:none" id="listingCountWrap">
       <label>拓品數量<span class="required-star">✱</span></label>
       <input id="listingCount" type="number" min="1" max="30" value="10" />
       <span class="hint">建議 10–20 隻品質最佳；最多 30 隻（超過 20 隻品質會開始參差）</span>
     </div>
 
-    <div style="margin-top:16px">
+    <div style="margin-top:16px; display:none" id="step3ButtonWrap">
       <button class="btn btn-orange" onclick="generateExpansionPrompt()">產出拓品 Prompt →</button>
     </div>
     <div class="msg" id="step3Msg"></div>
@@ -1467,42 +1360,23 @@ function generateAttrPrompt() {
 "\n" +
 "## Your Task\n" +
 "Suggest exactly **5 product attributes** that can be used to create differentiated Alibaba.com B2B listings for this product.\n" +
-"For each attribute, provide realistic values that buyers commonly search for.\n\n" +
+"For each attribute, provide 3–8 realistic values that buyers commonly search for.\n\n" +
 "⚠️ **IMPORTANT:** Do NOT suggest certifications, compliance, or regulatory status as attributes. These are product-level properties that apply uniformly to all SKUs, not variant differentiators. Focus on objective, physical dimensions: size, capacity, color, material grade, weight, application type, etc.\n\n" +
-"## 輸出格式（請嚴格遵守，共兩個區塊）\n\n" +
-"---\n\n" +
-"**第一區塊 — 屬性名稱（用 JSON code block 輸出，方便一鍵複製）：**\n\n" +
+"## 輸出格式（請用一個 JSON code block，方便一鍵複製）\n\n" +
 "```json\n" +
-'["attribute1", "attribute2", "attribute3", "attribute4", "attribute5"]\n' +
+"{\n" +
+'  "attribute1": ["value1", "value2", "value3"],\n' +
+'  "attribute2": ["value1", "value2", "value3"],\n' +
+'  "attribute3": ["value1", "value2", "value3"],\n' +
+'  "attribute4": ["value1", "value2", "value3"],\n' +
+'  "attribute5": ["value1", "value2", "value3"]\n' +
+"}\n" +
 "```\n\n" +
-"---\n\n" +
-"**第二區塊 — 每個屬性的建議值（屬性名稱用純文字，值用 JSON code block）：**\n\n" +
-"attribute1:\n" +
-"```json\n" +
-'["value1", "value2", "value3"]\n' +
-"```\n\n" +
-"attribute2:\n" +
-"```json\n" +
-'["value1", "value2", "value3"]\n' +
-"```\n\n" +
-"attribute3:\n" +
-"```json\n" +
-'["value1", "value2", "value3"]\n' +
-"```\n\n" +
-"attribute4:\n" +
-"```json\n" +
-'["value1", "value2", "value3"]\n' +
-"```\n\n" +
-"attribute5:\n" +
-"```json\n" +
-'["value1", "value2", "value3"]\n' +
-"```\n\n" +
-"---\n\n" +
 "**規則：**\n" +
 "- 屬性名稱與值全部使用英文\n" +
-"- 第一區塊必須恰好 5 個屬性\n" +
-"- 第二區塊每個屬性需提供 3–8 個真實常見的值\n" +
-"- 只輸出以上兩個區塊，不需要其他說明文字";
+"- 必須恰好 5 個屬性\n" +
+"- 每個屬性需提供 3–8 個真實常見的值\n" +
+"- 只輸出以上 JSON code block，不需要其他說明文字";
 
   document.getElementById("attrPromptText").textContent = prompt;
   document.getElementById("attrPromptBox").style.display = "block";
@@ -1677,6 +1551,80 @@ function generateFaqImagePrompt() {
 // ══════════════════════════════════════════════════════
 // STEP 3 — 解析屬性名稱，產生輸入框
 // ══════════════════════════════════════════════════════
+function parseAttrJson() {
+  var raw = v("attrJsonInput").trim();
+  var grid = document.getElementById("attrValueGrid");
+  var msgEl = document.getElementById("attrParsedMsg");
+  var dividerEl = document.getElementById("step3Divider");
+  var countWrapEl = document.getElementById("listingCountWrap");
+  var buttonWrapEl = document.getElementById("step3ButtonWrap");
+
+  grid.innerHTML = "";
+  msgEl.style.display = "none";
+  dividerEl.style.display = "none";
+  countWrapEl.style.display = "none";
+  buttonWrapEl.style.display = "none";
+
+  if (!raw) return;
+
+  // 提取 JSON（去掉 ```json ``` 標記）
+  var jsonStr = raw.replace(/```json\n?|\n?```/g, "").trim();
+  var data;
+
+  try {
+    data = JSON.parse(jsonStr);
+  } catch(e) {
+    msgEl.textContent = "✗ JSON 格式不正確，請檢查";
+    msgEl.style.background = "#fee2e2";
+    msgEl.style.color = "#991b1b";
+    msgEl.style.display = "block";
+    return;
+  }
+
+  // 確保 data 是 Object 且不是 Array
+  if (!data || typeof data !== "object" || Array.isArray(data)) {
+    msgEl.textContent = "✗ JSON 必須是物件格式（{...}），不是陣列";
+    msgEl.style.background = "#fee2e2";
+    msgEl.style.color = "#991b1b";
+    msgEl.style.display = "block";
+    return;
+  }
+
+  var names = Object.keys(data);
+  if (names.length === 0) {
+    msgEl.textContent = "✗ JSON 為空";
+    msgEl.style.background = "#fee2e2";
+    msgEl.style.color = "#991b1b";
+    msgEl.style.display = "block";
+    return;
+  }
+
+  // 儲存到全局變數供 generateExpansionPrompt 使用
+  window.parsedAttributes = data;
+
+  // 顯示屬性卡片
+  names.forEach(function(name) {
+    var values = data[name];
+    if (!Array.isArray(values)) values = [String(values)];
+
+    var row = document.createElement("div");
+    row.className = "attr-row" ;
+    row.innerHTML =
+      '<div class="attr-name-tag">' + name + '</div>' +
+      '<div style="flex:1; font-size:12px; color:#64748b; padding:8px 12px;">' + values.join(", ") + '</div>';
+    grid.appendChild(row);
+  });
+
+  grid.style.display = "block";
+  msgEl.textContent = "✓ 已解析 " + names.length + " 個屬性";
+  msgEl.style.background = "#d1fae5";
+  msgEl.style.color = "#065f46";
+  msgEl.style.display = "block";
+  dividerEl.style.display = "block";
+  countWrapEl.style.display = "block";
+  buttonWrapEl.style.display = "block";
+}
+
 function parseAttrNames() {
   var raw = v("attrNames").trim();
   var grid = document.getElementById("attrValueGrid");
@@ -1711,28 +1659,26 @@ function parseAttrInput(raw) {
 // STEP 3 — 產出拓品 Prompt
 // ══════════════════════════════════════════════════════
 function generateExpansionPrompt() {
-  var attrNamesRaw = v("attrNames").trim();
-  if (!attrNamesRaw) { showMsg("step3Msg", "✗ 請先貼入屬性名稱", "err"); return; }
+  if (!window.parsedAttributes || Object.keys(window.parsedAttributes).length === 0) {
+    showMsg("step3Msg", "✗ 請先貼入並解析屬性 JSON", "err");
+    return;
+  }
 
-  var names = parseAttrInput(attrNamesRaw);
+  var attrObj = window.parsedAttributes;
+  var names = Object.keys(attrObj);
   var attrLines = [];
-  var missingVals = [];
 
   names.forEach(function(name) {
-    var raw = v("attrVal_" + name).trim();
-    if (!raw) { missingVals.push(name); return; }
-    // 解析值：JSON 陣列或逗號分隔
-    var vals;
-    try {
-      var arr = JSON.parse(raw);
-      if (Array.isArray(arr)) vals = arr.map(function(s){ return String(s).trim(); }).filter(Boolean);
-    } catch(e) {}
-    if (!vals) vals = raw.split(",").map(function(s){ return s.trim().replace(/^"|"$/g,""); }).filter(Boolean);
-    attrLines.push(name + ": " + vals.join(", "));
+    var vals = attrObj[name];
+    if (!Array.isArray(vals)) vals = [String(vals)];
+    vals = vals.map(function(s){ return String(s).trim(); }).filter(Boolean);
+    if (vals.length > 0) {
+      attrLines.push(name + ": " + vals.join(", "));
+    }
   });
 
-  if (missingVals.length > 0) {
-    showMsg("step3Msg", "✗ 請填寫以下屬性的值：" + missingVals.join(", "), "err");
+  if (attrLines.length === 0) {
+    showMsg("step3Msg", "✗ 屬性數據不正確", "err");
     return;
   }
 
